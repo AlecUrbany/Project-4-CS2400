@@ -13,21 +13,25 @@ public class BuildHeap
  static int swapCount=0;
 	static void heapify(int arr[], int n, int i)
 	{
-		int largest = i; // Initialize largest as root
-		int l = 2 * i + 1; // left = 2*i + 1
-		int r = 2 * i + 2; // right = 2*i + 2
 		
-		// If left child is larger than root
+		//Cited From Geeks For Geeks 
+		//https://www.geeksforgeeks.org/binary-heap/
+		//THIS WAS NOT OUR CODE. WE UNDERSTAND HOW THEY DID IT, AND WHY. WE DID NOT WRITE IT. 
+		int largest = i; // Initialize largest as root
+		int l = 2 * i + 1; // equation for the left node is 2*i+1, i being the node that is the root. and 
+		int r = 2 * i + 2; // equation for the right node 
+		
+		// Checks for left child being bigger than largest
 		if (l < n && arr[l] > arr[largest]){
 			largest = l;
 			swapCount++;
 		}
-		// If right child is larger than largest so far
+		// Checks for right child being bigger than largest
 		if (r < n && arr[r] > arr[largest]){
 			largest = r;
 			swapCount++;
 		}
-		// If largest is not root
+		// If statement to see if largest is larger than root.
 		if (largest != i) {
 			int swap = arr[i];
 			arr[i] = arr[largest];
@@ -41,12 +45,16 @@ public class BuildHeap
 	}
 	static int removeHeap(int arr[], int n)
 	{
+		//This is a for loop that will make it so we remove 10 items. You can also just remove this for loop so it only removes once
 		for (int i = 0; i < 10; i++)
 		{
+			//Sets up the last item in the stack
 			int lastItem = arr[n-1];
-
+			
+			//Sets the first array as the last item in the stack
 			arr[0] = lastItem;
 			n = n - 1;
+			// Calls heapify to fix this abomination we've just created.
 			heapify(arr, n, 0);
 		}
 		System.out.print("Heap after 10 removals: ");
@@ -61,39 +69,52 @@ public class BuildHeap
 	static void buildHeap(int arr[], int n)
 	{
 		
-		// Index of last non-leaf node
+		// Index position of last node
 		int startIdx = (n / 2) - 1;
 
-		// Perform reverse level order traversal
-		// from last non-leaf node and heapify
-		// each node
-		for (int i = startIdx; i >= 0; i--) {
+
+		for (int i = startIdx; i >= 0; i--) 
+		{
 			heapify(arr, n, i);
 		}
 	}
-		public static void buildheap2(int arr[], int n)
+	 static int swapCount2;
+	 //our attempt at making the O(n) binary heap sort algorithm
+	 // Creates and array and uses that to push it into heapify. 
+		public static void buildheap2(int arr2[], int n)
 		{
-			size = arr.length;
+			size= arr2.length;
 			
-			arr = new int[arraycopy];
+			arr2= new int[arraycopy];
 			
-			for(int i=0;i<arr.length;i++)
+			
+            for(int i=0;i<arr2.length;i++)
 			{
-				arr[i] = arr[i];	
+				arr2[i] = arr2[i];	
+                
 			}
-			 for(int i=(arr.length)/2;i>=0;i--){
-            heapify(arr, n, i);
+			 for(int i=(arr2.length)/2;i>0;i--){
+                heapify(arr2, i, i);
         }
 		}
 
-	// A utility function to print the array
-	// representation of Heap
+	// print funcitonality
 	static void printHeap(int arr[], int n)
 	{
-		System.out.print("Heap built using optimal method ");
+		System.out.print("Heap built using NOT optimal method: ");
 		
 		for (int i = 0; i < 10; ++i)
 			System.out.print(arr[i] + " ");
+
+		System.out.println();
+		
+	}
+	static void printHeap2(int arr2[], int n)
+	{
+		System.out.print("Heap built using optimal method: ");
+		
+		for (int i = 0; i < 10; ++i)
+			System.out.print(arr2[i] + " ");
 
 		System.out.println();
 		
@@ -117,11 +138,12 @@ public class BuildHeap
 		}
 		//File parser
 		File unsortedData = new File("data_random.txt");
+		File unsortedData2 = new File("data_random.txt");
         int i = 0; 
         int array[];
-		
+		int array2[];
         array = new int[100];
-		
+		array2 = new int[100];
 	    try (Scanner scanFile = new Scanner(unsortedData))
         {
             array[i] = scanFile.nextInt();
@@ -130,8 +152,13 @@ public class BuildHeap
                 array[i] = scanFile.nextInt();
 				i++;
             }
-
 		int n = array.length;
+		/*
+		Our printable statements. Pulling the swapcount variable value and using that as the counter for the amount of swaps
+		we got stuck on why our 2nd buildheap wouldnt print out a different value. We figured it is due to the fact that our 
+		heapify is the same code. We dont know how else to write it and we were thinking about it until 11:40 PM on the night of its due date.
+		wario is cool :/
+		*/
 		System.out.println("=====================================================================");
 		buildHeap(array, n);
 		printHeap(array, n);
@@ -139,11 +166,16 @@ public class BuildHeap
 		swapCount=0;
 		removeHeap(array, n);
 		System.out.println("Number of swaps in the heap removal code "+swapCount);
+
 		System.out.println("\nTHIS IS BUILD HEAP 2 BELOW:");
+		swapCount=0;
 		buildheap2(array, n);
-		printHeap(array, n);
-		System.out.println("=====================================================================");
-		System.out.println("The total swap count is "+swapCount);	
+		printHeap2(array, n);
+		System.out.println("Number of swaps in the heap creation: "+swapCount);
+		swapCount=0;
+		removeHeap(array, n);
+		System.out.println("Number of swaps in the heap removal code "+swapCount);
+		System.out.println("=====================================================================");	
 		}
 	}
 }
