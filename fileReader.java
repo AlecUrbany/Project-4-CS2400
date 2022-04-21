@@ -11,6 +11,7 @@ public class fileReader
 
         File unsortedData = new File("data_random.txt");
         int i = 0; 
+        int ii = 0;
         int array[];
         array = new int[100];
 	    try (Scanner scanFile = new Scanner(unsortedData))
@@ -18,7 +19,7 @@ public class fileReader
             array[i] = scanFile.nextInt();
             while (scanFile.nextLine() != null)
             {
-                System.out.println(array[i]);
+
                 array[i] = scanFile.nextInt();
             }
 

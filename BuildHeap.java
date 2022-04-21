@@ -1,6 +1,14 @@
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.IOException;
+import java.sql.Array;
+import java.io.FileWriter;
 public class BuildHeap 
 {
+	private static int size;
+	private int[] arr;
+	private static int arraycopy;
 
 	// To heapify a subtree rooted with node i which is
 	// an index in arr[].Nn is size of heap
@@ -49,7 +57,31 @@ public class BuildHeap
 			heapify(arr, n, i);
 		}
 	}
+		public static void buildheap2(int arr[], int n)
+		{
+			size= arr.length;
+			
+			arr= new int[arraycopy];
+			
+			for(int i=0;i<arr.length;i++)
+			{
+				arr[i] = arr[i];	
+			}
+			 for(int i=(arr.length)/2;i>=0;i--){
+            heapify(arr, n, i);
+        }
+		}
 
+	public int removeHeap()
+	{
+		if (this.size<1)
+			return -1;
+		int temp = this.arr[0];
+		this.arr[0] = this.arr[size-1];
+		this.arr[size-1] = temp;
+		size--;
+		return this.arr[size];
+	}
 	// A utility function to print the array
 	// representation of Heap
 	static void printHeap(int arr[], int n)
@@ -64,17 +96,52 @@ public class BuildHeap
 	}
 
 	// Driver Code
-	public static void main(String args[])
+	public static void main(String args[]) throws FileNotFoundException
 	{
-	
-		int arr[] = { 4,6,3,2,1,10,19,30,29,34,100,99,98,94};
+		//File parser
+		File unsortedData = new File("data_random.txt");
+        int i = 0; 
+        int ii = 0;
+        int array[];
+        array = new int[100];
+	    try (Scanner scanFile = new Scanner(unsortedData))
+        {
+            array[i] = scanFile.nextInt();
+            while (scanFile.hasNextInt())
+            {
+                array[i] = scanFile.nextInt();
+				i++;
+            }
 
-		int n = arr.length;
+		int n = array.length;
 
-		buildHeap(arr, n);
-
-		printHeap(arr, n);
-		System.out.println("The total swap count is "+swapCount);	
+		buildHeap(array, n);
+		printHeap(array, n);
+		System.out.println("THIS IS BUILD HEAP 2 BELOW");
 		
+		buildheap2(array, n);
+
+		printHeap(array, n);
+		System.out.println("The total swap count is "+swapCount);	
+		//File maker
+		// FileWriter output = null;
+		// try 
+		// {
+		//   output = new FileWriter("heapOutput.txt");
+		// 	for (String line : lines)
+		// 	{
+		// 		output.write(line + "\n");
+		// 	}
+		// } 
+		// catch (IOException error) 
+		// {
+		//   System.out.println("Oopsies, there's a mistake");
+		//   error.printStackTrace();
+		// }
+		}
 	}
+
+	
+	
 }
+
